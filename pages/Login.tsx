@@ -13,10 +13,17 @@ import {
 } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useRouter } from "next/router";
 
 export default function Login() {
   const [show, setShow] = useState<Boolean>(false);
+  const router = useRouter();
   const handleClick = () => setShow(!show);
+
+  const handleLoginButtonClick = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    router.push("/home");
+  };
 
   return (
     <Flex justify={"center"} marginTop="8rem">
@@ -49,7 +56,11 @@ export default function Login() {
         </CardBody>
         <CardFooter>
           <ButtonGroup spacing="2">
-            <Button variant="solid" colorScheme="blue">
+            <Button
+              variant="solid"
+              colorScheme="blue"
+              onClick={handleLoginButtonClick}
+            >
               Login
             </Button>
             <Button variant="ghost" colorScheme="blue">
