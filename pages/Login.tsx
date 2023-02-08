@@ -16,7 +16,9 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useRouter } from "next/router";
 
 export default function Login() {
-  const [show, setShow] = useState<Boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [show, setShow] = useState<boolean>(false);
   const router = useRouter();
   const handleClick = () => setShow(!show);
 
@@ -33,12 +35,18 @@ export default function Login() {
             <Heading size="md" marginBottom={4}>
               Login
             </Heading>
-            <Input placeholder="Email" />
+            <Input
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <InputGroup size="md">
               <Input
                 pr="4.5rem"
                 type={show ? "text" : "password"}
                 placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <InputRightElement width="2.5rem">
                 {show ? (
