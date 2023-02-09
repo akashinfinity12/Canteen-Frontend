@@ -13,7 +13,11 @@ import {
 } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { login } from "@/API/customAPI";
+("../API/customAPI");
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -21,10 +25,35 @@ export default function Login() {
   const [show, setShow] = useState<boolean>(false);
   const router = useRouter();
   const handleClick = () => setShow(!show);
+  const toast = useToast();
 
-  const handleLoginButtonClick = (e: { preventDefault: () => void }) => {
+  const handleLoginButtonClick = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    router.push("/home");
+    const body: login = {
+      email: email,
+      password: password,
+    };
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth", body);
+      localStorage.setItem("user", JSON.stringify(response.data));
+      toast({
+        title: "Login Successful",
+        status: "success",
+        duration: 1000,
+        position: "top-right",
+      });
+      setTimeout(() => {
+        router.push("/home");
+      }, 1100);
+    } catch (ex) {
+      toast({
+        title: "Invalid Email or Password",
+        status: "error",
+        duration: 2000,
+        position: "top-right",
+      });
+      console.log(ex);
+    }
   };
 
   return (
