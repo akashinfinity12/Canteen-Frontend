@@ -15,6 +15,8 @@ import { Input } from "@chakra-ui/react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+var cookieCutter = require("cookie-cutter");
+import { useCookies } from "react-cookie";
 import axios from "axios";
 import { login } from "@/API/customAPI";
 ("../API/customAPI");
@@ -35,7 +37,7 @@ export default function Login() {
     };
     try {
       const response = await axios.post("http://localhost:5000/api/auth", body);
-      localStorage.setItem("user", JSON.stringify(response.data));
+      cookieCutter.set("user", response.data);
       toast({
         title: "Login Successful",
         status: "success",
