@@ -1,2 +1,2 @@
-export const protectedRoutes = ["/home", "/timepass"];
+export const protectedRoutes = ["/home"];
 export const publicRoutes = ["/"];

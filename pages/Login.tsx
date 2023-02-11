@@ -15,8 +15,6 @@ import { Input } from "@chakra-ui/react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-var cookieCutter = require("cookie-cutter");
-import { useCookies } from "react-cookie";
 import axios from "axios";
 import { login } from "@/API/customAPI";
 ("../API/customAPI");
@@ -37,7 +35,7 @@ export default function Login() {
     };
     try {
       const response = await axios.post("http://localhost:5000/api/auth", body);
-      cookieCutter.set("user", response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
       toast({
         title: "Login Successful",
         status: "success",
@@ -57,6 +55,18 @@ export default function Login() {
       console.log(ex);
     }
   };
+
+  async function trail() {
+    console.log("pressed");
+    try {
+      const response = await axios.get("http://localhost:5000/api/foods", {
+        withCredentials: true,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <Flex justify={"center"} marginTop="8rem">
@@ -102,7 +112,7 @@ export default function Login() {
             >
               Login
             </Button>
-            <Button variant="ghost" colorScheme="blue">
+            <Button variant="ghost" colorScheme="blue" onClick={trail}>
               Forgot Password
             </Button>
           </ButtonGroup>
